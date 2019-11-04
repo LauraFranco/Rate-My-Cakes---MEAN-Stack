@@ -1,0 +1,87 @@
+<div class="wrapper">
+  <div class="enterCake">
+    <h1>Rate my cakes!</h1>
+    <section>
+      <h4>Submit a cake to be rated!</h4>
+      <form (submit)="createCake(cakeForm)" #cakeForm="ngForm">
+        Baker Name:
+        <input
+          type="text"
+          name="baker_name"
+          [(ngModel)]="newCake.baker_name"
+          class="form-control"
+        /><br />
+        Image URL:
+        <input
+          type="text"
+          name="image"
+          [(ngModel)]="newCake.image"
+          class="form-control"
+        /><br />
+        <input type="submit" value="Submit" class="btn btn-info" />
+      </form>
+    </section>
+  </div>
+  <br />
+  <div class="cakesbox">
+    <div *ngFor="let cake of cakes" class="eachbox">
+      <br />
+      <div class="cakedisplay">
+        <img
+          [src]="cake.image"
+          class="imgcakes"
+          alt=""
+          (click)="oneCake(cake)"
+        />
+      </div>
+      <br />
+      <div class="ratingForm">
+        <br />
+        <form
+          (submit)="createComment(commentForm, cake._id)"
+          #commentForm="ngForm"
+        >
+          <select
+            name="comment.rating"
+            [(ngModel)]="comment.rating"
+            class="form-control"
+          >
+            <option value="1">1 Stars</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option> </select
+          ><br />
+          <textarea
+            name="comment.message"
+            [(ngModel)]="comment.message"
+            class="form-control"
+          ></textarea
+          ><br />
+          <input type="submit" value="Rate!" class="btn btn-warning" />
+        </form>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card border-light mb-3" style="max-width: 20rem;"  *ngIf="selectedCake">
+    <div class="card-header">Baked by: {{ selectedCake.baker_name }}</div>
+    <div class="card-body">
+      <h6 class="card-title">Average rating: {{ selectedCake.avg }}</h6>
+      <div class="comments" *ngFor="let comment of selectedCake.comments">
+      <p class="card-text">{{ comment.message }}</p>
+      <p class="card-text">{{ comment.rating }}</p>
+    </div>
+    </div>
+  </div>
+<!-- <div class="selected" *ngIf="selectedCake">
+  <img [src]="selectedCake.image" class="imgcakes" />
+  <p>Baked by: {{ selectedCake.baker_name }}</p>
+  <p>Average rating: {{ selectedCake.avg }}</p>
+  <div class="comments" *ngFor="let comment of selectedCake.comments">
+    <p>{{ comment.message }}</p>
+    <p>{{ comment.rating }}</p>
+  </div>
+</div> -->
